@@ -110,7 +110,7 @@ forgiveBtn.addEventListener('click', () => {
 
 // === TOMBOL NO - BERPINDAH SAAT DIKLIK (Mobile Friendly) ===
 function moveNoButton() {
-  const maxX = window.innerWidth * 0.6;   // batas gerak
+  const maxX = window.innerWidth * 0.4;   // batas gerak
   const maxY = window.innerHeight * 0.4;
 
   const randomX = Math.random() * maxX - (maxX / 2);
