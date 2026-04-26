@@ -13,7 +13,7 @@ const messages = [
   "Te extraño mucho mi amor..."
 ];
 
-// Canvas setup
+// Canvas Confetti
 function resizeCanvas() {
   confettiCanvas.width = window.innerWidth;
   confettiCanvas.height = window.innerHeight;
@@ -34,7 +34,7 @@ class Particle {
   
   update() {
     this.y += this.speed;
-    if (this.y > confettiCanvas.height) this.y = -30;
+    if (this.y > confettiCanvas.height + 50) this.y = -50;
   }
   
   draw() {
@@ -49,7 +49,7 @@ class Particle {
 }
 
 function createConfetti() {
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 110; i++) {
     particles.push(new Particle());
   }
 }
@@ -65,35 +65,42 @@ function animateConfetti() {
   requestAnimationFrame(animateConfetti);
 }
 
-// Floating messages (diperbaiki agar tidak tumpuk)
+// Floating Message yang lebih baik (tidak mudah tumpuk)
 function createFloatingMessage() {
   const msg = document.createElement('div');
   msg.className = 'floating-msg';
   msg.textContent = messages[Math.floor(Math.random() * messages.length)];
+
+  // Posisi lebih acak dan responsive
+  const leftPos = 10 + Math.random() * 75;
+  msg.style.left = `${leftPos}vw`;
+  msg.style.top = '105%';
   
-  // Posisi acak yang lebih baik
-  msg.style.left = Math.random() * 85 + 7 + 'vw';
-  msg.style.top = '100%';
-  msg.style.animationDuration = (Math.random() * 4 + 8) + 's';
-  
+  // Durasi berbeda agar tidak bertumpuk
+  const duration = 7 + Math.random() * 6;
+  msg.style.animationDuration = `${duration}s`;
+
   document.body.appendChild(msg);
 
-  setTimeout(() => msg.remove(), 12000);
+  setTimeout(() => {
+    if (msg.parentNode) msg.parentNode.removeChild(msg);
+  }, duration * 1000 + 500);
 }
 
-// Button interactions
+// Tombol (dengan console log untuk debugging)
 forgiveBtn.addEventListener('click', () => {
+  console.log('Forgive button clicked!'); // untuk cek apakah event jalan
   createConfetti();
   
-  // Banjir pesan menggemaskan
-  for (let i = 0; i < 15; i++) {
-    setTimeout(createFloatingMessage, i * 180);
+  for (let i = 0; i < 16; i++) {
+    setTimeout(createFloatingMessage, i * 160);
   }
 
   alert("Yayyy! Thank you my love! 💖\nTe amo mucho Angel! Now come give me a virtual hug 🥰");
 });
 
 noBtn.addEventListener('click', () => {
+  console.log('No button clicked!');
   const messagesNo = ["Please... 🥺", "I'm really sorryyy", "Don't be mad at me..."];
   noBtn.textContent = messagesNo[Math.floor(Math.random() * messagesNo.length)];
   noBtn.style.background = '#ff4d94';
@@ -101,18 +108,18 @@ noBtn.addEventListener('click', () => {
 });
 
 noBtn.addEventListener('mouseover', () => {
-  const x = Math.random() * 160 - 80;
-  const y = Math.random() * 80 - 40;
+  const x = Math.random() * 140 - 70;
+  const y = Math.random() * 70 - 35;
   noBtn.style.transform = `translate(${x}px, ${y}px)`;
 });
 
-// Start everything
+// Start
 animateConfetti();
-setInterval(createFloatingMessage, 2200);
+setInterval(createFloatingMessage, 2500);   // interval lebih longgar
 
 // Initial messages
 setTimeout(() => {
-  for (let i = 0; i < 8; i++) {
-    setTimeout(createFloatingMessage, i * 350);
+  for (let i = 0; i < 7; i++) {
+    setTimeout(createFloatingMessage, i * 400);
   }
-}, 600);
+}, 800);
