@@ -139,26 +139,37 @@ h2 { color: #ff4d94; font-size: 1.85rem; margin-bottom: 25px; }
 .floating-msg {
   position: fixed;
   color: #ff4d94;
-  font-size: 1.1rem;
   font-weight: 600;
   white-space: nowrap;
   pointer-events: none;
   z-index: 30;
   text-shadow: 0 2px 10px rgba(255, 77, 148, 0.5);
+  will-change: transform, opacity;
   animation: floatUp linear forwards;
+  max-width: 85vw;           /* cegah terlalu lebar */
+  word-break: break-word;
+  padding: 0 10px;
 }
 
 @keyframes floatUp {
-  0%   { transform: translateY(150px); opacity: 0; }
-  20%  { opacity: 1; }
-  80%  { opacity: 1; }
-  100% { transform: translateY(-700px); opacity: 0; }
+  0%   { transform: translateY(180px) scale(0.8); opacity: 0; }
+  15%  { opacity: 1; transform: translateY(0) scale(1); }
+  85%  { opacity: 1; }
+  100% { transform: translateY(-750px) scale(1.05); opacity: 0; }
 }
 
-/* Responsive Floating Messages */
+/* Responsive khusus mobile */
 @media (max-width: 768px) {
   .floating-msg {
-    font-size: 1rem;
+    font-size: 0.95rem !important;
+    max-width: 78vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-msg {
+    font-size: 0.9rem !important;
+    max-width: 75vw;
   }
 }
 

@@ -10,10 +10,11 @@ const messages = [
   "My heart beats only for you ❤️",
   "Sorry for being silly... but I'm your silly 💗",
   "Forgive me? Pretty please with hearts on top? 🥹",
-  "Te extraño mucho mi amor..."
+  "Te extraño mucho mi amor...",
+  "Eres el amor de mi vida 💖"
 ];
 
-// Canvas Confetti
+// Canvas Confetti (tetap sama)
 function resizeCanvas() {
   confettiCanvas.width = window.innerWidth;
   confettiCanvas.height = window.innerHeight;
@@ -31,12 +32,7 @@ class Particle {
     this.speed = Math.random() * 3.5 + 2.5;
     this.color = ['#ff4d94', '#ff80ab', '#ff69b4', '#ffb6c1'][Math.floor(Math.random() * 4)];
   }
-  
-  update() {
-    this.y += this.speed;
-    if (this.y > confettiCanvas.height + 50) this.y = -50;
-  }
-  
+  update() { this.y += this.speed; if (this.y > confettiCanvas.height + 50) this.y = -50; }
   draw() {
     ctx.save();
     ctx.font = `${this.size}px Arial`;
@@ -49,9 +45,7 @@ class Particle {
 }
 
 function createConfetti() {
-  for (let i = 0; i < 110; i++) {
-    particles.push(new Particle());
-  }
+  for (let i = 0; i < 110; i++) particles.push(new Particle());
 }
 
 function animateConfetti() {
@@ -65,42 +59,53 @@ function animateConfetti() {
   requestAnimationFrame(animateConfetti);
 }
 
-// Floating Message yang lebih baik (tidak mudah tumpuk)
+// === FLOATING MESSAGE BARU - ANTI TUMPUK ===
+let lastPositions = []; // untuk menghindari posisi terlalu dekat
+
 function createFloatingMessage() {
   const msg = document.createElement('div');
   msg.className = 'floating-msg';
   msg.textContent = messages[Math.floor(Math.random() * messages.length)];
 
-  // Posisi lebih acak dan responsive
-  const leftPos = 10 + Math.random() * 75;
+  // Pilih zona posisi (kiri, tengah, kanan) agar tidak tumpuk
+  const zones = [12, 38, 62, 85]; // persentase left
+  let leftPos = zones[Math.floor(Math.random() * zones.length)];
+
+  // Hindari terlalu dekat dengan pesan sebelumnya
+  if (lastPositions.length > 0) {
+    let attempts = 0;
+    while (attempts < 5 && Math.abs(leftPos - lastPositions[lastPositions.length-1]) < 25) {
+      leftPos = zones[Math.floor(Math.random() * zones.length)];
+      attempts++;
+    }
+  }
+  lastPositions.push(leftPos);
+  if (lastPositions.length > 4) lastPositions.shift();
+
   msg.style.left = `${leftPos}vw`;
   msg.style.top = '105%';
-  
-  // Durasi berbeda agar tidak bertumpuk
-  const duration = 7 + Math.random() * 6;
+
+  // Durasi acak agar tidak sinkron
+  const duration = 8 + Math.random() * 7;
   msg.style.animationDuration = `${duration}s`;
 
   document.body.appendChild(msg);
 
   setTimeout(() => {
     if (msg.parentNode) msg.parentNode.removeChild(msg);
-  }, duration * 1000 + 500);
+  }, duration * 1000 + 1000);
 }
 
-// Tombol (dengan console log untuk debugging)
+// Tombol
 forgiveBtn.addEventListener('click', () => {
-  console.log('Forgive button clicked!'); // untuk cek apakah event jalan
   createConfetti();
-  
-  for (let i = 0; i < 16; i++) {
-    setTimeout(createFloatingMessage, i * 160);
+  for (let i = 0; i < 12; i++) {   // kurangi jumlah sekaligus
+    setTimeout(createFloatingMessage, i * 220);
   }
-
-  alert("Yayyy! Thank you my love! 💖\nTe amo mucho Angel! Now come give me a virtual hug 🥰");
+  alert("Yayyy! Thank you my love! 💖\nTe amo mucho Angel! 🥰");
 });
 
 noBtn.addEventListener('click', () => {
-  console.log('No button clicked!');
   const messagesNo = ["Please... 🥺", "I'm really sorryyy", "Don't be mad at me..."];
   noBtn.textContent = messagesNo[Math.floor(Math.random() * messagesNo.length)];
   noBtn.style.background = '#ff4d94';
@@ -113,13 +118,15 @@ noBtn.addEventListener('mouseover', () => {
   noBtn.style.transform = `translate(${x}px, ${y}px)`;
 });
 
-// Start
+// Start animations
 animateConfetti();
-setInterval(createFloatingMessage, 2500);   // interval lebih longgar
 
-// Initial messages
+// Mulai floating message dengan interval lebih longgar
+setInterval(createFloatingMessage, 2800);
+
+// Initial messages (sedikit dan tersebar)
 setTimeout(() => {
-  for (let i = 0; i < 7; i++) {
-    setTimeout(createFloatingMessage, i * 400);
+  for (let i = 0; i < 6; i++) {
+    setTimeout(createFloatingMessage, i * 450);
   }
-}, 800);
+}, 600);
