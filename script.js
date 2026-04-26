@@ -108,18 +108,39 @@ forgiveBtn.addEventListener('click', () => {
   alert("Yayyy! Thank you my love! 💖\nTe amo mucho Angel! 🥰");
 });
 
+// === TOMBOL NO - BERPINDAH SAAT DIKLIK (Mobile Friendly) ===
+function moveNoButton() {
+  const maxX = window.innerWidth * 0.6;   // batas gerak
+  const maxY = window.innerHeight * 0.4;
+
+  const randomX = Math.random() * maxX - (maxX / 2);
+  const randomY = Math.random() * maxY - (maxY / 2);
+
+  noBtn.style.transition = 'transform 0.4s ease';
+  noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+}
+
+// Event untuk tombol No
 noBtn.addEventListener('click', () => {
-  const messagesNo = ["Please... 🥺", "I'm really sorryyy", "Don't be mad at me..."];
+  moveNoButton();                    // Pindah saat diklik (penting untuk mobile)
+  
+  const messagesNo = ["Please... 🥺", "I'm sorryyy", "Don't be mad...", "Otra vez? 🥹"];
   noBtn.textContent = messagesNo[Math.floor(Math.random() * messagesNo.length)];
   noBtn.style.background = '#ff4d94';
   noBtn.style.color = 'white';
 });
 
 noBtn.addEventListener('mouseover', () => {
-  const x = Math.random() * 140 - 70;
-  const y = Math.random() * 70 - 35;
-  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  if (window.innerWidth > 768) {     // Hanya hover di desktop
+    moveNoButton();
+  }
 });
+
+// noBtn.addEventListener('mouseover', () => {
+//   const x = Math.random() * 140 - 70;
+//   const y = Math.random() * 70 - 35;
+//   noBtn.style.transform = `translate(${x}px, ${y}px)`;
+// });
 
 // Start animations
 animateConfetti();

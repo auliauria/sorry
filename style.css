@@ -172,6 +172,11 @@ h2 { color: #ff4d94; font-size: 1.85rem; margin-bottom: 25px; }
     max-width: 75vw;
   }
 }
+.no-btn {
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 20;
+}
 
 .final {
   font-size: 1.1rem;
