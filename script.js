@@ -4,14 +4,17 @@ const confettiCanvas = document.getElementById('confetti');
 const ctx = confettiCanvas.getContext('2d');
 
 const messages = [
-  "I promise I'll never test you again 🥺",
-  "Te amo más que a nada en este mundo 💕",
+  "Sorry for being silly 🥺",
+  "Te amo, incluso cuando soy torpe 💕",
+  "No more silly questions, only hugs 😊",
+  "Eres mi favorito, siempre 💗",
+  "Can we trade my silly question for extra cuddles? Deal? 💗",
+  "I miss you already. Come back to me?",
+  "Perdón mi amor... ¿me perdonas? 😘",
   "You're my Mexican prince ✨",
-  "My heart beats only for you ❤️",
-  "Sorry for being silly... but I'm your silly 💗",
-  "Forgive me? Pretty please with hearts on top? 🥹",
-  "Te extraño mucho mi amor...",
-  "Eres el amor de mi vida 💖"
+  "Solo quiero hacerte sonreír 💖",
+  "Te extraño mucho... ven aquí 🥰",
+  "Clumsy me loves you very much 😅❤️"
 ];
 
 // Canvas Confetti (tetap sama)
